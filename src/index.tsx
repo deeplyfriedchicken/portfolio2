@@ -1,19 +1,28 @@
 import * as React from "React";
 
-import createRouterApp from "./routing/initialize-router";
-
 import {render} from "react-dom";
 
+import ApolloClient from 'apollo-boost';
+import { ApolloProvider } from '@apollo/react-hooks';
+
 import App from "./components/App";
+
+const client = new ApolloClient({
+  uri: '',
+});
 
 const appContainer = document.getElementById("app");
 if (appContainer === null) {
     throw new Error("app container id 'app is not defined");
 }
 
-const RApp = createRouterApp(App);
+const ProviderApp = () => (
+    <ApolloProvider client={client}>
+        <App />
+    </ApolloProvider>
+);
 
 render(
-    <RApp />,
+    <ProviderApp />,
     appContainer,
 );
